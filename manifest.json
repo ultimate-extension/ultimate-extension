@@ -1,0 +1,73 @@
+{
+  "manifest_version": 3,
+  "name": "Forever - Ultimate Domain Logger",
+  "version": "5.0.2",
+  "description": "Forever extensible: logs every domain/subdomain, live HUD, PII-clean export, topSites, compressed analytics, AI chat exporter, image filter, 100% local",
+  "permissions": [
+    "webRequest",
+    "storage",
+    "alarms",
+    "topSites",
+    "scripting"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content/overlay.js",
+        "content/imageFilter.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": false
+    }
+  ],
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "Forever Logger"
+  },
+  "commands": {
+    "toggle-hud": {
+      "suggested_key": {
+        "default": "Alt+Shift+F"
+      },
+      "description": "Toggle HUD"
+    },
+    "toggle-collapse": {
+      "suggested_key": {
+        "default": "Alt+Shift+C"
+      },
+      "description": "Collapse/Expand HUD"
+    },
+    "move-hud": {
+      "suggested_key": {
+        "default": "Alt+Shift+M"
+      },
+      "description": "Move HUD position"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "dashboard/*"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "update_url": "https://raw.githubusercontent.com/ultimate-extension/ultimate-extension/main/update.xml",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArnUKYWvMQVXxG5sQiucNIn+AMGIqMdEcdiLsPrrEZT0Wk4h98yLcKAdhsNNGI7L0b1sv8L2OIhhwlWZFgBgQW4eJZaAF8mt9o5q2FVg510N7WqCcdoBQ8/GOkRbdcn29yyucBcn2TRAu1u+qXEWaJ0lAbelXJqoh/gvQi0VzUgb8K9ByWA0Aqm4LdcqeoktUnZBJ/TxGz/iRa53yhlv5OXkKe7loUAscMfs+3TuIo7vfayGoV7MyUW3T69plYYB9TQqh8ruqPwaKk8Fz18dcfJmYUG5biRnoXdMTAB4+KjzOs9g1nAKfEdtEVLBYD2rC+yS1iQ+EUOkUSTxZCcrvzwIDAQAB"
+}

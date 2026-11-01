@@ -1,0 +1,23 @@
+
+<!doctype html><html><head><meta charset="utf-8"><title>Forever Dashboard</title><style>
+body{background:#0a0a0a;color:#0f0;font-family:monospace;margin:0;padding:20px}
+h1{margin:0 0 10px}
+input{background:#111;color:#0f0;border:1px solid #0f0;padding:6px;border-radius:4px;width:300px}
+button{background:#222;color:#0f0;border:1px solid #0f0;padding:6px 10px;border-radius:4px;cursor:pointer;margin:4px}
+table{width:100%;border-collapse:collapse;margin-top:10px}
+th,td{border:1px solid #222;padding:6px;text-align:left;font-size:12px}
+th{background:#111;position:sticky;top:0}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.card{background:#111;border:1px solid #222;padding:10px;border-radius:8px;min-width:140px}
+</style></head><body>
+<h1>⚡ Forever - Filterable Domain Log (PII-clean, domains only, no URLs)</h1>
+<div class="row">
+<div class="card">Total: <span id="total">0</span></div>
+<div class="card">Today: <span id="today">0</span></div>
+<div class="card">TopSites: <span id="topsites">0</span></div>
+<div class="card">Compressed Days: <span id="days">0</span></div>
+</div>
+<div class="row"><input id="search" placeholder="Filter domains..."><button id="export">Export Clean JSON</button><button id="exportCsv">Export CSV</button><button id="exportZip">Export ZIP (React analytics)</button></div>
+<table><thead><tr><th>Domain</th><th>Root</th><th>Count</th><th>Last Seen</th><th>Types</th></tr></thead><tbody id="tbody"></tbody></table>
+<script src="dashboard.js"></script>
+</body></html>

@@ -1,0 +1,1 @@
+export const FLUSH_MS=3000, MAX_CACHE=5000, DAYS_KEEP=90;

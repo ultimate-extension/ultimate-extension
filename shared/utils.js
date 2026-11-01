@@ -1,0 +1,1 @@
+export const fastHostname=u=>{try{return new URL(u).hostname.toLowerCase()}catch{return null}};
