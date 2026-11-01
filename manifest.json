@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Forever - Ultimate Domain Logger",
-  "version": "5.0.8",
+  "version": "5.0.9",
   "description": "Forever extensible: logs every domain/subdomain, live HUD, PII-clean export, topSites, compressed analytics, AI chat exporter, image filter, 100% local",
   "permissions": [
     "webRequest",

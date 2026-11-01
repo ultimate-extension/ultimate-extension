@@ -1,20 +1,36 @@
-
-<!doctype html><html><head><meta charset="utf-8"><style>
-body{width:320px;font-family:monospace;background:#0f0f0f;color:#0f0;padding:10px;margin:0}
-button{background:#222;color:#0f0;border:1px solid #0f0;border-radius:6px;padding:6px 10px;cursor:pointer;margin:4px}
-.row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed #222}
-</style></head><body>
-<h3>⚡ Forever</h3>
-<div class="row"><span>Total domains</span><span id="total">0</span></div>
-<div class="row"><span>Today requests</span><span id="today">0</span></div>
-<div class="row"><span>Top site</span><span id="top">-</span></div>
-<div style="margin-top:8px">
-<button id="export">Export Clean (no PII)</button>
-<button id="dashboard">Dashboard</button>
-<button id="ai">Export AI Chat</button>
-<button id="clear">Clear</button>
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="../shared/shadcn.css">
+<style>
+body { width: 380px; margin:0; padding:0; }
+.header { padding: 16px 20px; border-bottom: 1px solid hsl(var(--border)); display:flex; justify-content:space-between; align-items:center; }
+.stats { display:grid; grid-template-columns: 1fr 1fr; gap:8px; padding:12px 16px; }
+.stat-card { padding:12px; }
+.stat-value { font-size:1.25rem; font-weight:700; letter-spacing:-0.02em; }
+.stat-label { font-size:0.7rem; color:hsl(var(--muted-foreground)); text-transform:uppercase; letter-spacing:0.04em; margin-top:2px; }
+.actions { padding:0 16px 12px; display:flex; gap:8px; flex-wrap:wrap; }
+.list { max-height:220px; overflow:auto; border-top:1px solid hsl(var(--border)); }
+.list-item { padding:10px 16px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid hsl(var(--border)); }
+.list-item:last-child { border-bottom:none; }
+.domain { font-size:0.8125rem; font-weight:500; }
+.count { font-size:0.7rem; }
+</style></head>
+<body>
+<div class="header">
+  <div style="display:flex; align-items:center; gap:8px;">
+    <div style="width:28px;height:28px;border-radius:6px;background:hsl(var(--primary));color:hsl(var(--primary-foreground));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8rem;">F</div>
+    <div><div style="font-weight:600;font-size:0.9rem;letter-spacing:-0.01em;">Forever</div><div style="font-size:0.68rem;color:hsl(var(--muted-foreground));">Domain Logger • v5.0.8 shadcn</div></div>
+  </div>
+  <span class="shadcn-badge" id="statusBadge">Live</span>
 </div>
-<div style="margin-top:8px"><label><input type="checkbox" id="imgFilter"> Image filter (local)</label></div>
-<div style="margin-top:8px;color:#888;font-size:10px">Alt+Shift+F toggle HUD | Alt+Shift+C collapse | 100% local | no proxy | no external DB</div>
+<div class="stats">
+  <div class="shadcn-card stat-card"><div class="stat-value" id="totalDomains">0</div><div class="stat-label">Unique domains</div></div>
+  <div class="shadcn-card stat-card"><div class="stat-value" id="totalReqs">0</div><div class="stat-label">Requests (session)</div></div>
+</div>
+<div class="actions">
+  <button class="shadcn-btn shadcn-btn-primary" id="openDashboard">Open Dashboard</button>
+  <button class="shadcn-btn shadcn-btn-secondary" id="exportBtn">Export clean JSON</button>
+  <button class="shadcn-btn shadcn-btn-outline" id="clearBtn">Clear</button>
+</div>
+<div class="list" id="domainList"></div>
 <script src="popup.js"></script>
 </body></html>

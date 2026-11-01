@@ -1,46 +1,84 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Forever Dashboard</title>
+<link rel="stylesheet" href="../shared/shadcn.css">
+<style>
+body { margin:0; padding:0; min-height:100vh; }
+.shell { max-width: 1100px; margin:0 auto; padding:24px; }
+.topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+.kpi-grid { display:grid; grid-template-columns: repeat(4, 1fr); gap:12px; margin-bottom:16px; }
+@media(max-width:800px){ .kpi-grid { grid-template-columns: 1fr 1fr; } }
+.filters { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.filters .shadcn-input { flex:1; min-width:200px; }
+</style></head>
+<body>
+<div class="shell">
+  <div class="topbar">
+    <div style="display:flex; align-items:center; gap:12px;">
+      <div style="width:36px;height:36px;border-radius:8px;background:hsl(var(--primary));color:hsl(var(--primary-foreground));display:flex;align-items:center;justify-content:center;font-weight:700;">F</div>
+      <div>
+        <div style="font-weight:700; font-size:1.1rem; letter-spacing:-0.02em;">Forever Dashboard</div>
+        <div style="font-size:0.75rem; color:hsl(var(--muted-foreground));">Local-first domain analytics • PII cleaned • shadcn UI • v5.0.8</div>
+      </div>
+    </div>
+    <div style="display:flex; gap:8px;">
+      <span class="shadcn-badge" id="liveBadge">● Live</span>
+      <span class="shadcn-badge" id="countBadge">0 domains</span>
+    </div>
+  </div>
 
-<!doctype html><html><head><meta charset="utf-8"><title>Forever Dashboard</title><style>
-body{background:#0a0a0a;color:#0f0;font-family:monospace;margin:0;padding:20px}
-h1{margin:0 0 10px}
-input{background:#111;color:#0f0;border:1px solid #0f0;padding:6px;border-radius:4px;width:300px}
-button{background:#222;color:#0f0;border:1px solid #0f0;padding:6px 10px;border-radius:4px;cursor:pointer;margin:4px}
-table{width:100%;border-collapse:collapse;margin-top:10px}
-th,td{border:1px solid #222;padding:6px;text-align:left;font-size:12px}
-th{background:#111;position:sticky;top:0}
-.row{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
-.card{background:#111;border:1px solid #222;padding:10px;border-radius:8px;min-width:140px}
-</style></head><body>
-<h1>⚡ Forever - Filterable Domain Log (PII-clean, domains only, no URLs)</h1>
-<div class="row">
-<div class="card">Total: <span id="total">0</span></div>
-<div class="card">Today: <span id="today">0</span></div>
-<div class="card">TopSites: <span id="topsites">0</span></div>
-<div class="card">Compressed Days: <span id="days">0</span></div>
-</div>
-<div class="row"><input id="search" placeholder="Filter domains..."><button id="export">Export Clean JSON</button><button id="exportCsv">Export CSV</button><button id="exportZip">Export ZIP (React analytics)</button></div>
+  <div class="kpi-grid">
+    <div class="shadcn-card"><div class="shadcn-card-header"><div class="shadcn-card-desc">Unique domains</div><div style="font-size:1.6rem;font-weight:700;margin-top:4px;" id="kpiDomains">0</div></div></div>
+    <div class="shadcn-card"><div class="shadcn-card-header"><div class="shadcn-card-desc">Total requests (session)</div><div style="font-size:1.6rem;font-weight:700;margin-top:4px;" id="kpiReqs">0</div></div></div>
+    <div class="shadcn-card"><div class="shadcn-card-header"><div class="shadcn-card-desc">Trackers blocked est.</div><div style="font-size:1.6rem;font-weight:700;margin-top:4px;" id="kpiTrackers">0</div></div></div>
+    <div class="shadcn-card"><div class="shadcn-card-header"><div class="shadcn-card-desc">Top site</div><div style="font-size:0.9rem;font-weight:600;margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" id="kpiTop">-</div></div></div>
+  </div>
 
-<div id="stt-panel" style="border:1px solid #0f0; padding:12px; border-radius:8px; margin:12px 0; background:#0a0a0a;">
-<h3 style="margin:0 0 8px;">🎤 Speech to Text - Test Update (100% local Web Speech API)</h3>
-<div class="row">
-<select id="stt-lang" style="background:#111;color:#0f0;border:1px solid #0f0;padding:4px;border-radius:4px;">
-<option value="en-US">English US</option>
-<option value="en-GB">English UK</option>
-<option value="es-ES">Spanish</option>
-<option value="fr-FR">French</option>
-<option value="de-DE">German</option>
-</select>
-<button id="stt-start">🎤 Start Listening</button>
-<button id="stt-stop">⏹ Stop</button>
-<button id="stt-clear">Clear</button>
-<button id="stt-copy">Copy</button>
-<button id="stt-export">Export TXT</button>
-<button id="stt-tts">🔊 Speak Transcript</button>
-</div>
-<div id="stt-status" style="color:#888;margin:6px 0;">Status: Idle - click Start (uses browser local speech recognition, no upload)</div>
-<textarea id="stt-transcript" style="width:100%;height:140px;background:#111;color:#0f0;border:1px solid #222;border-radius:4px;padding:8px;font-family:monospace;" placeholder="Transcript appears here... interim in gray, final in green. Test: say something like 'log all domains'"></textarea>
-<div style="font-size:10px;color:#666;margin-top:4px;">Local only, no external API, no PII sent. Works in Chrome/Edge. Test update v5.0.7</div>
-</div>
+  <!-- STT PANEL shadcn -->
+  <div class="shadcn-card" style="margin-bottom:16px;">
+    <div class="shadcn-card-header" style="display:flex; justify-content:space-between; align-items:center;">
+      <div><div class="shadcn-card-title" style="display:flex; align-items:center; gap:8px;">🎤 Speech to Text <span class="shadcn-badge" style="font-weight:400;">Test v5.0.8 • Local</span></div><div class="shadcn-card-desc">Web Speech API, no external API, no upload. Use for hands-free domain notes.</div></div>
+      <div class="shadcn-badge" id="stt-status" style="background:hsl(var(--background));">Idle</div>
+    </div>
+    <div class="shadcn-card-content">
+      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;">
+        <select id="stt-lang" class="shadcn-input" style="width:140px; height:2.25rem;">
+          <option value="en-US">English US</option><option value="en-GB">English UK</option><option value="es-ES">Spanish</option><option value="fr-FR">French</option><option value="de-DE">German</option>
+        </select>
+        <button class="shadcn-btn shadcn-btn-primary" id="stt-start">● Start</button>
+        <button class="shadcn-btn shadcn-btn-secondary" id="stt-stop">Stop</button>
+        <button class="shadcn-btn shadcn-btn-outline" id="stt-clear">Clear</button>
+        <button class="shadcn-btn shadcn-btn-outline" id="stt-copy">Copy</button>
+        <button class="shadcn-btn shadcn-btn-outline" id="stt-export">Export .txt</button>
+        <button class="shadcn-btn shadcn-btn-ghost" id="stt-tts">🔊 Speak</button>
+      </div>
+      <textarea id="stt-transcript" class="shadcn-input" style="height:120px; resize:vertical; padding:10px; font-family:ui-monospace, monospace; font-size:0.8rem;" placeholder="Transcript appears here... say 'show facebook trackers'"></textarea>
+      <div style="font-size:0.7rem; color:hsl(var(--muted-foreground)); margin-top:6px;">Local only. Stored compressed in chrome.storage.local.sttLastTranscript for debugging.</div>
+    </div>
+  </div>
 
-<table><thead><tr><th>Domain</th><th>Root</th><th>Count</th><th>Last Seen</th><th>Types</th></tr></thead><tbody id="tbody"></tbody></table>
+  <div class="shadcn-card" style="margin-bottom:16px;">
+    <div class="shadcn-card-header"><div class="shadcn-card-title">Filters & Export</div></div>
+    <div class="shadcn-card-content">
+      <div class="filters">
+        <input id="search" class="shadcn-input" placeholder="Filter domains... e.g. google, fb, tracker">
+        <button class="shadcn-btn shadcn-btn-secondary" id="export">Export clean JSON</button>
+        <button class="shadcn-btn shadcn-btn-secondary" id="exportCsv">Export CSV</button>
+        <button class="shadcn-btn shadcn-btn-outline" id="exportZip">Export ZIP (analytics)</button>
+        <button class="shadcn-btn shadcn-btn-outline" id="clearAll">Clear data</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="shadcn-card">
+    <div class="shadcn-card-header"><div class="shadcn-card-title">Domains</div><div class="shadcn-card-desc">Deduplicated, PII removed, sorted by count. Click domain to filter requests.</div></div>
+    <div class="shadcn-card-content" style="padding:0;">
+      <div style="overflow:auto; max-height:60vh;">
+        <table class="shadcn-table"><thead><tr><th>Domain</th><th>Count</th><th>First seen</th><th>Last seen</th><th>Type</th></tr></thead><tbody id="domainTable"></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:12px; font-size:0.7rem; color:hsl(var(--muted-foreground));">Built without React. Pure vanilla shadcn tokens. All processing local. No network upload.</div>
+</div>
 <script src="dashboard.js"></script>
 </body></html>
